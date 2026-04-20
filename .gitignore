@@ -1,0 +1,51 @@
+# ── Python ──────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
+*.egg
+dist/
+build/
+.eggs/
+
+# ── Virtual Environment ─────────────────────────────────────
+.venv/
+venv/
+env/
+ENV/
+
+# ── Environment & Secrets ────────────────────────────────────
+.env
+*.pem
+*.key
+
+# ── IDE ──────────────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# ── Testing & Coverage ──────────────────────────────────────
+.coverage
+htmlcov/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# ── Docker ───────────────────────────────────────────────────
+docker-compose.override.yaml
+
+# ── Monitoring Data ──────────────────────────────────────────
+prometheus_data/
+grafana_data/
+
+# ── Misc ─────────────────────────────────────────────────────
+*.log
+*.pid
+
+# ── Private docs (not for public repo) ───────────────────────
+blueprint.md
+WALKTHROUGH.md

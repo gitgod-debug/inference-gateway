@@ -1,0 +1,111 @@
+[build-system]
+requires = ["setuptools>=75.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "inference-gateway"
+version = "1.0.0"
+description = "Production-grade unified multi-model inference gateway with OpenAI-compatible API"
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.11"
+authors = [
+    {name = "Harshit", email = "harshit@example.com"},
+]
+keywords = ["inference", "gateway", "llm", "openai", "fastapi", "vllm", "ollama", "sglang"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Software Engineering",
+    "Framework :: FastAPI",
+]
+
+dependencies = [
+    "fastapi>=0.115.0",
+    "uvicorn[standard]>=0.34.0",
+    "httpx>=0.28.0",
+    "pydantic>=2.10.0",
+    "pydantic-settings>=2.7.0",
+    "structlog>=24.4.0",
+    "prometheus-client>=0.21.0",
+    "prometheus-fastapi-instrumentator>=7.0.0",
+    "pyyaml>=6.0.2",
+    "python-dotenv>=1.0.1",
+    "typer[all]>=0.15.0",
+    "sse-starlette>=2.2.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.3.0",
+    "pytest-asyncio>=0.25.0",
+    "pytest-cov>=6.0.0",
+    "respx>=0.22.0",
+    "ruff>=0.8.0",
+    "mypy>=1.13.0",
+    "types-PyYAML>=6.0.12",
+]
+benchmark = [
+    "locust>=2.32.0",
+]
+
+[project.scripts]
+inference-gateway = "gateway.cli:app"
+
+[project.urls]
+Homepage = "https://github.com/harshit/inference-gateway"
+Documentation = "https://github.com/harshit/inference-gateway#readme"
+Repository = "https://github.com/harshit/inference-gateway"
+Issues = "https://github.com/harshit/inference-gateway/issues"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+addopts = "-v --tb=short"
+markers = [
+    "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+    "integration: marks integration tests",
+]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = [
+    "E",    # pycodestyle errors
+    "W",    # pycodestyle warnings
+    "F",    # pyflakes
+    "I",    # isort
+    "N",    # pep8-naming
+    "UP",   # pyupgrade
+    "B",    # flake8-bugbear
+    "SIM",  # flake8-simplify
+    "TCH",  # flake8-type-checking
+    "RUF",  # ruff-specific rules
+]
+ignore = ["E501"]  # line length handled by formatter
+
+[tool.ruff.lint.isort]
+known-first-party = ["gateway"]
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+
+[[tool.mypy.overrides]]
+module = "tests.*"
+disallow_untyped_defs = false
