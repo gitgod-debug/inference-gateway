@@ -75,7 +75,7 @@ pip install -e ".[dev]"
 
 ```bash
 cp .env.example .env
-# Add your free API keys (sign up at each — no credit card needed):
+# Add your API keys:
 #   GROQ_API_KEY=       → https://console.groq.com
 #   OPENROUTER_API_KEY= → https://openrouter.ai/keys
 #   GEMINI_API_KEY=     → https://aistudio.google.com/apikey
