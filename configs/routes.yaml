@@ -1,0 +1,89 @@
+# ============================================================
+# Inference Gateway — Backend Routes Configuration
+# ============================================================
+# All backends are configured here: free APIs, self-hosted,
+# and BYOK (Bring Your Own Key) providers.
+#
+# Environment variables can be referenced with ${VAR_NAME}
+# ============================================================
+
+backends:
+  # ── Free Backends (zero cost, no credit card) ─────────────
+
+  - name: groq
+    type: openai_compatible
+    base_url: "https://api.groq.com/openai/v1"
+    api_key: "${GROQ_API_KEY}"
+    models:
+      - "llama-3.3-70b-versatile"
+      - "llama-3.1-8b-instant"
+      - "mixtral-8x7b-32768"
+      - "deepseek-r1-distill-llama-70b"
+    health_endpoint: "/openai/v1/models"
+    priority: 1                     # Highest priority in fallback chain
+    tags: ["free", "fast"]
+
+  - name: openrouter
+    type: openai_compatible
+    base_url: "https://openrouter.ai/api/v1"
+    api_key: "${OPENROUTER_API_KEY}"
+    models:
+      - "openrouter/auto"           # Auto-selects best free model
+    health_endpoint: "/api/v1/models"
+    priority: 2
+    tags: ["free", "fallback"]
+
+  - name: gemini
+    type: openai_compatible
+    base_url: "https://generativelanguage.googleapis.com/v1beta/openai/"
+    api_key: "${GEMINI_API_KEY}"
+    models:
+      - "gemini-2.0-flash"
+    health_endpoint: "/v1beta/openai/models"
+    priority: 3
+    tags: ["free", "high-tpm"]
+
+  # ── Self-Hosted Backends (uncomment when running locally) ──
+
+  # - name: ollama-local
+  #   type: ollama
+  #   base_url: "http://ollama:11434"
+  #   models:
+  #     - "llama3.2"
+  #     - "mistral"
+  #   health_endpoint: "/api/tags"
+  #   priority: 1
+  #   tags: ["self-hosted", "cpu"]
+
+  # - name: vllm-local
+  #   type: vllm
+  #   base_url: "http://localhost:8000"
+  #   models:
+  #     - "meta-llama/Llama-3.1-8B-Instruct"
+  #   health_endpoint: "/health"
+  #   priority: 2
+  #   tags: ["self-hosted", "gpu"]
+
+  # - name: sglang-local
+  #   type: sglang
+  #   base_url: "http://localhost:30000"
+  #   models:
+  #     - "meta-llama/Llama-3.1-8B-Instruct"
+  #   health_endpoint: "/health"
+  #   priority: 2
+  #   tags: ["self-hosted", "gpu"]
+
+  # ── BYOK: Add your own API keys below ─────────────────────
+
+  # - name: my-openai
+  #   type: openai_compatible
+  #   base_url: "https://api.openai.com/v1"
+  #   api_key: "${OPENAI_API_KEY}"
+  #   models: ["gpt-4o", "gpt-4o-mini"]
+  #   priority: 10
+  #   tags: ["byok", "paid"]
+
+# ── Default routing ──────────────────────────────────────────
+routing:
+  default_backend: "groq"
+  fallback_order: ["groq", "openrouter", "gemini"]

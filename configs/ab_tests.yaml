@@ -1,0 +1,33 @@
+# ============================================================
+# Inference Gateway — A/B Test Configuration
+# ============================================================
+# Define experiments to split traffic between backends.
+#
+# Each test has:
+#   - name:       Unique test identifier
+#   - enabled:    Toggle without removing config
+#   - model:      Which model triggers this test (or "*" for all)
+#   - variants:   List of {backend, weight} pairs (weights sum to 100)
+#   - sticky:     If true, same tenant always gets same variant
+# ============================================================
+
+ab_tests:
+  - name: "groq-vs-gemini-latency"
+    enabled: false
+    model: "*"
+    sticky: true
+    variants:
+      - backend: "groq"
+        weight: 70
+      - backend: "gemini"
+        weight: 30
+
+  - name: "llama-model-comparison"
+    enabled: false
+    model: "llama-3.3-70b-versatile"
+    sticky: false
+    variants:
+      - backend: "groq"
+        weight: 50
+      - backend: "openrouter"
+        weight: 50

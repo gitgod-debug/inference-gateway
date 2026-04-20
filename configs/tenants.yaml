@@ -1,0 +1,32 @@
+# ============================================================
+# Inference Gateway — Tenant Configuration
+# ============================================================
+# Multi-tenant API key management.
+#
+# Each tenant has:
+#   - name:             Human-readable identifier
+#   - api_key:          The Bearer token they use to authenticate
+#   - rate_limit_rpm:   Per-tenant rate limit (requests/minute)
+#   - allowed_backends: Which backends this tenant can access ("*" = all)
+#   - tier:             Tenant tier (free / pro / enterprise)
+# ============================================================
+
+tenants:
+  - name: "demo"
+    api_key: "ig-demo-key-2026"
+    rate_limit_rpm: 30
+    allowed_backends: "*"
+    tier: "free"
+
+  - name: "test"
+    api_key: "ig-test-key-2026"
+    rate_limit_rpm: 120
+    allowed_backends: "*"
+    tier: "pro"
+
+  # Add more tenants as needed:
+  # - name: "production-app"
+  #   api_key: "${PROD_API_KEY}"
+  #   rate_limit_rpm: 1000
+  #   allowed_backends: ["groq", "my-openai"]
+  #   tier: "enterprise"
