@@ -1,0 +1,180 @@
+{
+  "annotations": {"list": []},
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 1,
+  "id": null,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "collapsed": false,
+      "gridPos": {"h": 1, "w": 24, "x": 0, "y": 0},
+      "id": 100,
+      "title": "📊 Request Overview",
+      "type": "row"
+    },
+    {
+      "datasource": {"type": "prometheus", "uid": "PBFA97CFB590B2093"},
+      "fieldConfig": {
+        "defaults": {
+          "color": {"mode": "palette-classic"},
+          "custom": {"axisCenteredZero": false, "axisLabel": "req/s", "drawStyle": "line", "fillOpacity": 20, "gradientMode": "scheme", "lineWidth": 2, "pointSize": 5, "showPoints": "never", "spanNulls": true},
+          "unit": "reqps"
+        },
+        "overrides": []
+      },
+      "gridPos": {"h": 8, "w": 12, "x": 0, "y": 1},
+      "id": 1,
+      "title": "Request Rate",
+      "type": "timeseries",
+      "targets": [{"expr": "rate(gateway_request_total[1m])", "legendFormat": "{{backend}} ({{status}})"}]
+    },
+    {
+      "datasource": {"type": "prometheus", "uid": "PBFA97CFB590B2093"},
+      "fieldConfig": {
+        "defaults": {
+          "color": {"mode": "palette-classic"},
+          "custom": {"axisCenteredZero": false, "drawStyle": "line", "fillOpacity": 15, "gradientMode": "scheme", "lineWidth": 2, "pointSize": 5, "showPoints": "never", "spanNulls": true},
+          "unit": "s"
+        },
+        "overrides": []
+      },
+      "gridPos": {"h": 8, "w": 12, "x": 12, "y": 1},
+      "id": 2,
+      "title": "Request Latency (P95)",
+      "type": "timeseries",
+      "targets": [{"expr": "histogram_quantile(0.95, rate(gateway_request_duration_seconds_bucket[5m]))", "legendFormat": "{{backend}} P95"}]
+    },
+    {
+      "datasource": {"type": "prometheus", "uid": "PBFA97CFB590B2093"},
+      "fieldConfig": {
+        "defaults": {
+          "color": {"fixedColor": "green", "mode": "thresholds"},
+          "thresholds": {"steps": [{"color": "green", "value": null}, {"color": "yellow", "value": 100}, {"color": "red", "value": 500}]},
+          "unit": "short"
+        }
+      },
+      "gridPos": {"h": 4, "w": 6, "x": 0, "y": 9},
+      "id": 3,
+      "title": "Total Requests",
+      "type": "stat",
+      "targets": [{"expr": "sum(gateway_request_total)"}]
+    },
+    {
+      "datasource": {"type": "prometheus", "uid": "PBFA97CFB590B2093"},
+      "fieldConfig": {
+        "defaults": {
+          "color": {"fixedColor": "red", "mode": "thresholds"},
+          "thresholds": {"steps": [{"color": "green", "value": null}, {"color": "yellow", "value": 0.01}, {"color": "red", "value": 0.05}]},
+          "unit": "percentunit"
+        }
+      },
+      "gridPos": {"h": 4, "w": 6, "x": 6, "y": 9},
+      "id": 4,
+      "title": "Error Rate",
+      "type": "stat",
+      "targets": [{"expr": "sum(rate(gateway_request_total{status=~\"5..\"}[5m])) / sum(rate(gateway_request_total[5m]))"}]
+    },
+    {
+      "datasource": {"type": "prometheus", "uid": "PBFA97CFB590B2093"},
+      "fieldConfig": {
+        "defaults": {
+          "color": {"fixedColor": "blue", "mode": "thresholds"},
+          "thresholds": {"steps": [{"color": "blue", "value": null}]},
+          "unit": "short"
+        }
+      },
+      "gridPos": {"h": 4, "w": 6, "x": 12, "y": 9},
+      "id": 5,
+      "title": "Active Requests",
+      "type": "gauge",
+      "targets": [{"expr": "sum(gateway_active_requests)"}]
+    },
+    {
+      "datasource": {"type": "prometheus", "uid": "PBFA97CFB590B2093"},
+      "fieldConfig": {
+        "defaults": {
+          "color": {"fixedColor": "purple", "mode": "thresholds"},
+          "thresholds": {"steps": [{"color": "purple", "value": null}]},
+          "unit": "short"
+        }
+      },
+      "gridPos": {"h": 4, "w": 6, "x": 18, "y": 9},
+      "id": 6,
+      "title": "Fallback Triggers",
+      "type": "stat",
+      "targets": [{"expr": "sum(gateway_fallback_total)"}]
+    },
+    {
+      "collapsed": false,
+      "gridPos": {"h": 1, "w": 24, "x": 0, "y": 13},
+      "id": 101,
+      "title": "🏥 Backend Health",
+      "type": "row"
+    },
+    {
+      "datasource": {"type": "prometheus", "uid": "PBFA97CFB590B2093"},
+      "fieldConfig": {
+        "defaults": {
+          "color": {"mode": "thresholds"},
+          "thresholds": {"steps": [{"color": "red", "value": null}, {"color": "green", "value": 1}]},
+          "mappings": [{"options": {"0": {"text": "DOWN"}, "1": {"text": "UP"}}, "type": "value"}]
+        }
+      },
+      "gridPos": {"h": 5, "w": 24, "x": 0, "y": 14},
+      "id": 7,
+      "title": "Backend Health Status",
+      "type": "stat",
+      "targets": [{"expr": "gateway_backend_health", "legendFormat": "{{backend}}"}],
+      "options": {"graphMode": "none", "textMode": "value_and_name"}
+    },
+    {
+      "collapsed": false,
+      "gridPos": {"h": 1, "w": 24, "x": 0, "y": 19},
+      "id": 102,
+      "title": "🪙 Token Usage",
+      "type": "row"
+    },
+    {
+      "datasource": {"type": "prometheus", "uid": "PBFA97CFB590B2093"},
+      "fieldConfig": {
+        "defaults": {
+          "color": {"mode": "palette-classic"},
+          "custom": {"drawStyle": "bars", "fillOpacity": 80, "gradientMode": "scheme", "lineWidth": 1},
+          "unit": "short"
+        }
+      },
+      "gridPos": {"h": 7, "w": 12, "x": 0, "y": 20},
+      "id": 8,
+      "title": "Tokens/min by Model",
+      "type": "timeseries",
+      "targets": [{"expr": "rate(gateway_tokens_total[1m]) * 60", "legendFormat": "{{model}} ({{type}})"}]
+    },
+    {
+      "datasource": {"type": "prometheus", "uid": "PBFA97CFB590B2093"},
+      "fieldConfig": {
+        "defaults": {
+          "color": {"mode": "palette-classic"},
+          "custom": {"drawStyle": "line", "fillOpacity": 10, "gradientMode": "scheme", "lineWidth": 2},
+          "unit": "short"
+        }
+      },
+      "gridPos": {"h": 7, "w": 12, "x": 12, "y": 20},
+      "id": 9,
+      "title": "A/B Test Variant Distribution",
+      "type": "timeseries",
+      "targets": [{"expr": "rate(gateway_ab_test_total[5m])", "legendFormat": "{{test_name}}: {{variant}}"}]
+    }
+  ],
+  "schemaVersion": 39,
+  "style": "dark",
+  "tags": ["inference-gateway", "llm", "ai"],
+  "templating": {"list": []},
+  "time": {"from": "now-1h", "to": "now"},
+  "timepicker": {},
+  "timezone": "browser",
+  "title": "🚀 Inference Gateway",
+  "uid": "inference-gateway",
+  "version": 1
+}
