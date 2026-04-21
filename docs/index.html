@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inference Gateway — Unified Multi-Model AI API</title>
+  <meta name="description" content="Production-grade API gateway for AI inference. Route requests across Groq, Gemini, OpenRouter and more with A/B testing, circuit breakers, and real-time observability.">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
+</head>
+<body>
+
+  <!-- ── Navigation ──────────────────────────────────────── -->
+  <nav class="nav">
+    <div class="container">
+      <div class="nav__logo">🚀 <span class="gradient-text">Inference Gateway</span></div>
+      <ul class="nav__links">
+        <li><a href="#features">Features</a></li>
+        <li><a href="#architecture">Architecture</a></li>
+        <li><a href="#playground">Try It</a></li>
+        <li><a href="#patterns">Patterns</a></li>
+        <li><a href="#observability">Monitoring</a></li>
+        <li><a href="https://github.com/gitgod-debug/inference-gateway" target="_blank">GitHub ↗</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ── Hero ────────────────────────────────────────────── -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero__badge">
+        <span class="badge badge--green">● Live</span>
+        <span class="badge badge--cyan">v1.0.0</span>
+        <span class="badge">109 Tests · 94% Coverage</span>
+      </div>
+      <h1>Unified <span class="gradient-text">Multi-Model</span><br>Inference Gateway</h1>
+      <p class="hero__sub">Production-grade API gateway with OpenAI-compatible endpoints. Route AI requests across Groq, Gemini, and OpenRouter with A/B testing, circuit breakers, and real-time observability.</p>
+      <div class="hero__actions">
+        <a href="#playground" class="btn btn--primary">▶ Try the Live API</a>
+        <a href="https://github.com/gitgod-debug/inference-gateway" target="_blank" class="btn btn--secondary">⭐ View on GitHub</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Stats ───────────────────────────────────────────── -->
+  <div class="container">
+    <div class="stats">
+      <div class="stat">
+        <div class="stat__value gradient-text">109</div>
+        <div class="stat__label">Tests Passing</div>
+      </div>
+      <div class="stat">
+        <div class="stat__value gradient-text">94%</div>
+        <div class="stat__label">Code Coverage</div>
+      </div>
+      <div class="stat">
+        <div class="stat__value gradient-text">6</div>
+        <div class="stat__label">Backend Adapters</div>
+      </div>
+      <div class="stat">
+        <div class="stat__value gradient-text">8</div>
+        <div class="stat__label">Design Patterns</div>
+      </div>
+      <div class="stat">
+        <div class="stat__value gradient-text">0</div>
+        <div class="stat__label">Cost (Free Tier)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Features ────────────────────────────────────────── -->
+  <section id="features" class="section">
+    <div class="container">
+      <div class="section__label">Features</div>
+      <h2 class="section__title">Everything you need for production AI inference</h2>
+      <p class="section__desc">Drop-in OpenAI replacement that routes requests across multiple backends with enterprise-grade reliability.</p>
+      <div class="features">
+        <div class="feature">
+          <div class="feature__icon">🔀</div>
+          <div class="feature__title">Multi-Backend Routing</div>
+          <div class="feature__desc">Groq, OpenRouter, Gemini, Ollama, vLLM, SGLang — all behind a single OpenAI-compatible API.</div>
+        </div>
+        <div class="feature">
+          <div class="feature__icon">🧪</div>
+          <div class="feature__title">A/B Testing</div>
+          <div class="feature__desc">Weighted traffic splitting with sticky sessions. Compare model performance in production.</div>
+        </div>
+        <div class="feature">
+          <div class="feature__icon">⚡</div>
+          <div class="feature__title">Circuit Breaker</div>
+          <div class="feature__desc">Automatic failure detection with half-open recovery. Prevents cascading failures across backends.</div>
+        </div>
+        <div class="feature">
+          <div class="feature__icon">🔒</div>
+          <div class="feature__title">Multi-Tenant Auth</div>
+          <div class="feature__desc">API key authentication with per-tenant rate limits using token bucket algorithm.</div>
+        </div>
+        <div class="feature">
+          <div class="feature__icon">📡</div>
+          <div class="feature__title">SSE Streaming</div>
+          <div class="feature__desc">Full Server-Sent Events streaming support. Compatible with OpenAI client libraries.</div>
+        </div>
+        <div class="feature">
+          <div class="feature__icon">📊</div>
+          <div class="feature__title">Prometheus + Grafana</div>
+          <div class="feature__desc">Request rates, latencies, token usage, and backend health — all auto-instrumented.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Architecture ────────────────────────────────────── -->
+  <section id="architecture" class="section">
+    <div class="container">
+      <div class="section__label">Architecture</div>
+      <h2 class="section__title">Request flow at a glance</h2>
+      <p class="section__desc">Every request passes through a middleware pipeline, gets routed by the engine, and reaches the optimal backend.</p>
+      <div class="arch-diagram">
+        <pre>
+  Client Request (OpenAI-compatible)
+          │
+          ▼
+  ┌──────────────────────────────────────┐
+  │         FastAPI Gateway              │
+  │  ┌────────────────────────────────┐  │
+  │  │     Middleware Pipeline        │  │
+  │  │  1. Request ID injection       │  │
+  │  │  2. Auth (API key → tenant)    │  │
+  │  │  3. Rate Limiter (per-tenant)  │  │
+  │  │  4. Request Logger (structlog) │  │
+  │  │  5. Metrics Collector (prom)   │  │
+  │  └────────────────────────────────┘  │
+  │  ┌────────────────────────────────┐  │
+  │  │     Router Engine              │  │
+  │  │  ├─ A/B Test Router            │  │
+  │  │  ├─ Canary Router              │  │
+  │  │  ├─ Weighted Load Balancer     │  │
+  │  │  └─ Fallback Chain             │  │
+  │  └────────────────────────────────┘  │
+  └──────────┬───────────────────────────┘
+             │
+      ┌──────┼──────┬──────────┐
+      ▼      ▼      ▼          ▼
+  ┌──────┐┌──────┐┌──────┐┌──────────────┐
+  │ Groq ││Open- ││Gemini││ Any OpenAI-  │
+  │(free)││Router││(free)││ compatible   │
+  │      ││(free)││      ││ (BYOK)       │
+  └──────┘└──────┘└──────┘└──────────────┘
+        </pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Playground ──────────────────────────────────────── -->
+  <section id="playground" class="section">
+    <div class="container">
+      <div class="section__label">Live Demo</div>
+      <h2 class="section__title">Try the API right now</h2>
+      <p class="section__desc">This calls the live, deployed gateway. Select an endpoint and hit Run.</p>
+      <div class="playground">
+        <div class="playground__header">
+          <div class="playground__dots">
+            <div class="playground__dot playground__dot--red"></div>
+            <div class="playground__dot playground__dot--yellow"></div>
+            <div class="playground__dot playground__dot--green"></div>
+          </div>
+          <div class="playground__title">inference-gateway — live terminal</div>
+          <span class="badge badge--green" style="font-size:0.7rem">● Connected</span>
+        </div>
+        <div class="playground__body">
+          <div class="playground__tabs">
+            <button class="playground__tab playground__tab--active" data-tab="health">GET /health</button>
+            <button class="playground__tab" data-tab="models">GET /v1/models</button>
+            <button class="playground__tab" data-tab="chat">POST /v1/chat/completions</button>
+          </div>
+          <div id="output" class="playground__output" style="color: var(--text-muted)">Press "Run" to call Health Check</div>
+          <button id="run-btn" class="playground__run">▶ Run</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Design Patterns ─────────────────────────────────── -->
+  <section id="patterns" class="section">
+    <div class="container">
+      <div class="section__label">Engineering</div>
+      <h2 class="section__title">Design patterns used</h2>
+      <p class="section__desc">Built with Staff-level architectural patterns for maintainability and extensibility.</p>
+      <table class="patterns-table">
+        <thead><tr><th>Pattern</th><th>Where</th><th>Purpose</th></tr></thead>
+        <tbody>
+          <tr><td>Strategy</td><td>ModelBackend Protocol</td><td>Swap backends without changing routing logic</td></tr>
+          <tr><td>Factory</td><td>BackendFactory</td><td>Create backends from YAML config</td></tr>
+          <tr><td>Chain of Responsibility</td><td>Router pipeline</td><td>A/B → Canary → Model → Fallback</td></tr>
+          <tr><td>Circuit Breaker</td><td>CircuitBreaker</td><td>Prevent cascading failures</td></tr>
+          <tr><td>Observer</td><td>Health → Load balancer</td><td>React to health status changes</td></tr>
+          <tr><td>Singleton</td><td>BackendRegistry</td><td>Single source of truth for backends</td></tr>
+          <tr><td>Template Method</td><td>BaseHTTPBackend</td><td>Shared HTTP logic, override specifics</td></tr>
+          <tr><td>Builder</td><td>create_app()</td><td>Configurable application assembly</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ── Observability ───────────────────────────────────── -->
+  <section id="observability" class="section">
+    <div class="container section--center">
+      <div class="section__label">Observability</div>
+      <h2 class="section__title">Full-stack monitoring</h2>
+      <p class="section__desc">Auto-provisioned Prometheus metrics and Grafana dashboards. Run <code>docker compose up</code> to see it live.</p>
+      <div class="obs-grid">
+        <div class="obs-card">
+          <div class="obs-card__title" style="color:var(--accent-cyan)">Prometheus</div>
+          <div class="obs-card__value">15s</div>
+          <div style="color:var(--text-secondary);font-size:0.8rem;margin-top:4px">Scrape interval for all metrics</div>
+        </div>
+        <div class="obs-card">
+          <div class="obs-card__title" style="color:var(--accent-purple)">Grafana</div>
+          <div class="obs-card__value">Auto</div>
+          <div style="color:var(--text-secondary);font-size:0.8rem;margin-top:4px">Pre-provisioned dashboard & datasource</div>
+        </div>
+        <div class="obs-card">
+          <div class="obs-card__title" style="color:var(--accent-green)">Metrics</div>
+          <div class="obs-card__value">12+</div>
+          <div style="color:var(--text-secondary);font-size:0.8rem;margin-top:4px">Request rate, latency, tokens, health</div>
+        </div>
+        <div class="obs-card">
+          <div class="obs-card__title" style="color:var(--accent-orange)">Alerts</div>
+          <div class="obs-card__value">Ready</div>
+          <div style="color:var(--text-secondary);font-size:0.8rem;margin-top:4px">Circuit breaker + error rate thresholds</div>
+        </div>
+      </div>
+      <p style="color:var(--text-muted);font-size:0.85rem;margin-top:32px">Grafana Cloud integration coming soon — live dashboard will be embedded here.</p>
+    </div>
+  </section>
+
+  <!-- ── Footer ──────────────────────────────────────────── -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__links">
+        <a href="https://github.com/gitgod-debug/inference-gateway" target="_blank">GitHub</a>
+        <a href="https://github.com/gitgod-debug/inference-gateway/blob/main/LICENSE" target="_blank">MIT License</a>
+      </div>
+      <p>Built with FastAPI, Python 3.13, and way too much coffee. ☕</p>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
