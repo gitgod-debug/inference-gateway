@@ -103,9 +103,14 @@ class OpenAICompatibleBackend(BaseHTTPBackend):
                             )
                             continue
         except httpx.HTTPStatusError as e:
+            try:
+                await e.response.aread()
+                body = e.response.text[:500]
+            except Exception:
+                body = "<unreadable>"
             logger.error(
                 "Backend %s stream error %d: %s",
-                self._name, e.response.status_code, e.response.text[:500],
+                self._name, e.response.status_code, body,
             )
             raise
         except httpx.HTTPError as e:

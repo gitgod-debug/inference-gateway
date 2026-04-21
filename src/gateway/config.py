@@ -72,6 +72,7 @@ class GatewaySettings(BaseSettings):
         "env_file": ".env",
         "env_file_encoding": "utf-8",
         "case_sensitive": False,
+        "extra": "ignore",
     }
 
     @field_validator("log_level")

@@ -19,7 +19,7 @@ backends:
       - "llama-3.1-8b-instant"
       - "mixtral-8x7b-32768"
       - "deepseek-r1-distill-llama-70b"
-    health_endpoint: "/openai/v1/models"
+    health_endpoint: "/models"
     priority: 1                     # Highest priority in fallback chain
     tags: ["free", "fast"]
 
@@ -29,7 +29,7 @@ backends:
     api_key: "${OPENROUTER_API_KEY}"
     models:
       - "openrouter/auto"           # Auto-selects best free model
-    health_endpoint: "/api/v1/models"
+    health_endpoint: "/models"
     priority: 2
     tags: ["free", "fallback"]
 
@@ -39,7 +39,7 @@ backends:
     api_key: "${GEMINI_API_KEY}"
     models:
       - "gemini-2.0-flash"
-    health_endpoint: "/v1beta/openai/models"
+    health_endpoint: "/models"
     priority: 3
     tags: ["free", "high-tpm"]
 

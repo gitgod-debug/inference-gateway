@@ -49,3 +49,10 @@ grafana_data/
 # ── Private docs (not for public repo) ───────────────────────
 blueprint.md
 WALKTHROUGH.md
+
+# ── Rest ─────────────────────────────────────────────────────
+.env
+DOCKER_VALIDATION.md
+terminal.md
+prometheus_data/
+grafana_data/
