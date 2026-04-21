@@ -12,13 +12,11 @@ from __future__ import annotations
 
 import json
 import logging
-from typing import AsyncIterator
+from typing import TYPE_CHECKING
 
 import httpx
 
 from gateway.backends.base import BackendFactory, BaseHTTPBackend
-from gateway.models.config_models import BackendConfig
-from gateway.models.request import ChatRequest
 from gateway.models.response import (
     ChatChoice,
     ChatChoiceMessage,
@@ -28,6 +26,12 @@ from gateway.models.response import (
     ChatResponse,
     UsageInfo,
 )
+
+if TYPE_CHECKING:
+    from collections.abc import AsyncIterator
+
+    from gateway.models.config_models import BackendConfig
+    from gateway.models.request import ChatRequest
 
 logger = logging.getLogger(__name__)
 

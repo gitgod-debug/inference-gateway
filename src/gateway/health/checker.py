@@ -10,11 +10,15 @@ Implements the Observer pattern: notifies registered observers
 from __future__ import annotations
 
 import asyncio
+import contextlib
 import logging
-from typing import Callable
+from collections.abc import Callable
+from typing import TYPE_CHECKING
 
-from gateway.backends.base import BackendRegistry
 from gateway.middleware.metrics import update_backend_health
+
+if TYPE_CHECKING:
+    from gateway.backends.base import BackendRegistry
 
 logger = logging.getLogger(__name__)
 
@@ -62,10 +66,8 @@ class HealthChecker:
         self._running = False
         if self._task:
             self._task.cancel()
-            try:
+            with contextlib.suppress(asyncio.CancelledError):
                 await self._task
-            except asyncio.CancelledError:
-                pass
         logger.info("Health checker stopped")
 
     async def _poll_loop(self) -> None:
@@ -85,11 +87,8 @@ class HealthChecker:
             return_exceptions=True,
         )
 
-        for backend, result in zip(backends, results):
-            if isinstance(result, Exception):
-                healthy = False
-            else:
-                healthy = result
+        for backend, result in zip(backends, results, strict=False):
+            healthy = False if isinstance(result, Exception) else result
 
             # Check if status changed
             prev_healthy = self._registry.is_healthy(backend.name)
@@ -112,7 +111,7 @@ class HealthChecker:
         """Check a single backend's health."""
         try:
             return await asyncio.wait_for(backend.health(), timeout=5.0)
-        except asyncio.TimeoutError:
+        except TimeoutError:
             logger.warning("Health check timed out for %s", backend.name)
             return False
         except Exception as e:

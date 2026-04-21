@@ -9,9 +9,11 @@ from __future__ import annotations
 import hashlib
 import logging
 import random
+from typing import TYPE_CHECKING
 
-from gateway.backends.base import BackendRegistry, BaseHTTPBackend
-from gateway.models.config_models import ABTestConfig
+if TYPE_CHECKING:
+    from gateway.backends.base import BackendRegistry, BaseHTTPBackend
+    from gateway.models.config_models import ABTestConfig
 
 logger = logging.getLogger(__name__)
 

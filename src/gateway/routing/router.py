@@ -12,13 +12,12 @@ from __future__ import annotations
 import logging
 from typing import TYPE_CHECKING
 
-from gateway.backends.base import BackendRegistry, BaseHTTPBackend
-from gateway.routing.ab_test import ABTestRouter
-from gateway.routing.canary import CanaryRouter
-from gateway.routing.fallback import FallbackChain
-
 if TYPE_CHECKING:
+    from gateway.backends.base import BackendRegistry, BaseHTTPBackend
     from gateway.models.config_models import RoutesConfig, TenantConfig
+    from gateway.routing.ab_test import ABTestRouter
+    from gateway.routing.canary import CanaryRouter
+    from gateway.routing.fallback import FallbackChain
 
 logger = logging.getLogger(__name__)
 

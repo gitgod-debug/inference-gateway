@@ -15,8 +15,8 @@ Production considerations:
 
 from __future__ import annotations
 
-import time
 import logging
+import time
 from typing import Any
 
 import httpx
@@ -24,11 +24,16 @@ from fastapi import APIRouter, Request
 from fastapi.responses import JSONResponse
 
 from gateway.middleware.metrics import (
-    ACTIVE_REQUESTS, FALLBACK_COUNT, record_request, record_tokens,
+    ACTIVE_REQUESTS,
+    record_request,
+    record_tokens,
 )
-from gateway.models.request import ChatRequest
+from gateway.models.request import ChatRequest  # noqa: TC001
 from gateway.models.response import (
-    ChatResponse, ErrorResponse, ModelInfo, ModelListResponse,
+    ChatResponse,
+    ErrorResponse,
+    ModelInfo,
+    ModelListResponse,
 )
 from gateway.streaming.sse import create_sse_response
 
@@ -135,7 +140,7 @@ async def chat_completions(request: Request, body: ChatRequest) -> Any:
                        "backend": backend_name}
             ).model_dump(),
         )
-    except httpx.TimeoutException as e:
+    except httpx.TimeoutException:
         # Backend timeout
         duration = time.monotonic() - start_time
         tenant_name = tenant.name if tenant else "anonymous"

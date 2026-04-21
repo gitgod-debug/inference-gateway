@@ -1,6 +1,7 @@
 """Tests for token bucket rate limiter."""
 
 import asyncio
+
 import pytest
 
 from gateway.middleware.rate_limit import TokenBucket

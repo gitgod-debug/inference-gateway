@@ -9,8 +9,10 @@ from __future__ import annotations
 import logging
 import random
 import time
+from typing import TYPE_CHECKING
 
-from gateway.backends.base import BackendRegistry, BaseHTTPBackend
+if TYPE_CHECKING:
+    from gateway.backends.base import BackendRegistry, BaseHTTPBackend
 
 logger = logging.getLogger(__name__)
 

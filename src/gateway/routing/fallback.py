@@ -9,9 +9,8 @@ from __future__ import annotations
 import logging
 from typing import TYPE_CHECKING
 
-from gateway.backends.base import BackendRegistry, BaseHTTPBackend
-
 if TYPE_CHECKING:
+    from gateway.backends.base import BackendRegistry, BaseHTTPBackend
     from gateway.health.circuit_breaker import CircuitBreakerManager
     from gateway.models.config_models import TenantConfig
 

@@ -3,13 +3,16 @@
 from __future__ import annotations
 
 import asyncio
-from typing import AsyncIterator
+from typing import TYPE_CHECKING
 
 import pytest
 from httpx import ASGITransport, AsyncClient
 
 from gateway.app import create_app
 from gateway.config import GatewaySettings
+
+if TYPE_CHECKING:
+    from collections.abc import AsyncIterator
 
 
 @pytest.fixture(scope="session")

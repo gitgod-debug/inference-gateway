@@ -8,8 +8,10 @@ from __future__ import annotations
 
 import itertools
 import logging
+from typing import TYPE_CHECKING
 
-from gateway.backends.base import BackendRegistry, BaseHTTPBackend
+if TYPE_CHECKING:
+    from gateway.backends.base import BackendRegistry, BaseHTTPBackend
 
 logger = logging.getLogger(__name__)
 

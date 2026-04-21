@@ -13,7 +13,6 @@ print to stdout for human consumption). Internal errors use logging.
 from __future__ import annotations
 
 import logging
-import sys
 
 import typer
 import uvicorn
@@ -66,22 +65,22 @@ def serve(
     except Exception as e:
         logger.error("Server failed to start: %s", e, exc_info=True)
         typer.echo(f"❌ Server failed: {e}", err=True)
-        raise typer.Exit(code=1)
+        raise typer.Exit(code=1) from None
 
 
 @app.command()
 def health() -> None:
     """Check health of all configured backends."""
     import asyncio
-    from gateway.config import get_settings, load_yaml_config
-    from gateway.backends.base import BackendFactory, BackendRegistry
-    from gateway.models.config_models import RoutesConfig
 
     # Import backends to register them
-    import gateway.backends.ollama  # noqa: F401
+    import gateway.backends.ollama
+    import gateway.backends.openai_compatible
+    import gateway.backends.sglang
     import gateway.backends.vllm  # noqa: F401
-    import gateway.backends.sglang  # noqa: F401
-    import gateway.backends.openai_compatible  # noqa: F401
+    from gateway.backends.base import BackendFactory, BackendRegistry
+    from gateway.config import get_settings, load_yaml_config
+    from gateway.models.config_models import RoutesConfig
 
     async def _check() -> None:
         settings = get_settings()
@@ -90,7 +89,7 @@ def health() -> None:
             routes_config = RoutesConfig(**routes_data)
         except Exception as e:
             typer.echo(f"❌ Failed to load routes config: {e}", err=True)
-            raise typer.Exit(code=1)
+            raise typer.Exit(code=1) from None
 
         registry = BackendRegistry()
         for cfg in routes_config.backends:
@@ -116,7 +115,7 @@ def health() -> None:
     except Exception as e:
         logger.error("Health check command failed: %s", e, exc_info=True)
         typer.echo(f"❌ Health check failed: {e}", err=True)
-        raise typer.Exit(code=1)
+        raise typer.Exit(code=1) from None
 
 
 @app.command()
@@ -131,7 +130,7 @@ def models() -> None:
         routes_config = RoutesConfig(**routes_data)
     except Exception as e:
         typer.echo(f"❌ Failed to load config: {e}", err=True)
-        raise typer.Exit(code=1)
+        raise typer.Exit(code=1) from None
 
     typer.echo("📋 Configured Models\n")
     for backend in routes_config.backends:

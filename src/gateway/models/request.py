@@ -11,7 +11,6 @@ from typing import Literal
 
 from pydantic import BaseModel, Field
 
-
 # ── Size limits to prevent memory exhaustion ────────────────
 _MAX_MESSAGES = 100        # Max messages per request
 _MAX_CONTENT_CHARS = 32768 # Max chars per message (≈8K tokens)

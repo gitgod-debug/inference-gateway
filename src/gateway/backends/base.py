@@ -16,13 +16,14 @@ Design Patterns:
 from __future__ import annotations
 
 import logging
-from typing import TYPE_CHECKING, AsyncIterator, Protocol, runtime_checkable
+from typing import TYPE_CHECKING, ClassVar, Protocol, runtime_checkable
 
 import httpx
 
-from gateway.models.config_models import BackendConfig
-
 if TYPE_CHECKING:
+    from collections.abc import AsyncIterator
+
+    from gateway.models.config_models import BackendConfig
     from gateway.models.request import ChatRequest
     from gateway.models.response import ChatChunk, ChatResponse
 
@@ -149,7 +150,7 @@ class BackendFactory:
         backend = BackendFactory.create(backend_config)
     """
 
-    _registry: dict[str, type[BaseHTTPBackend]] = {}
+    _registry: ClassVar[dict[str, type[BaseHTTPBackend]]] = {}
 
     @classmethod
     def register(cls, backend_type: str) -> callable:

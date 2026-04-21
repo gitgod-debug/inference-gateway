@@ -2,16 +2,17 @@
 
 import pytest
 from httpx import ASGITransport, AsyncClient
+
 from gateway.app import create_app
+from gateway.backends.base import BackendFactory, BackendRegistry
 from gateway.config import GatewaySettings
-from gateway.backends.base import BackendRegistry, BackendFactory
 from gateway.health.circuit_breaker import CircuitBreakerManager
+from gateway.models.config_models import RoutesConfig
 from gateway.routing.ab_test import ABTestRouter
 from gateway.routing.canary import CanaryRouter
 from gateway.routing.fallback import FallbackChain
 from gateway.routing.load_balancer import WeightedLoadBalancer
 from gateway.routing.router import RequestRouter
-from gateway.models.config_models import RoutesConfig
 
 
 def _setup_app_state(app, tmp_path):
@@ -29,7 +30,6 @@ routing:
   default_backend: mock
   fallback_order: [mock]
 """
-    from gateway.config import load_yaml_config
     import yaml
     routes_config = RoutesConfig(**yaml.safe_load(routes_yaml))
 

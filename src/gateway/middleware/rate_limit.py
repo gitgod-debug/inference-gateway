@@ -13,10 +13,13 @@ from __future__ import annotations
 
 import asyncio
 import time
+from typing import TYPE_CHECKING
 
 from starlette.middleware.base import BaseHTTPMiddleware, RequestResponseEndpoint
-from starlette.requests import Request
 from starlette.responses import JSONResponse, Response
+
+if TYPE_CHECKING:
+    from starlette.requests import Request
 
 # Paths exempt from rate limiting
 _EXEMPT_PATHS = {"/health", "/health/backends", "/v1/models", "/metrics", "/docs", "/openapi.json", "/redoc"}

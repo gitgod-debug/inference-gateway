@@ -1,16 +1,13 @@
 """Tests for backend adapters using mocked HTTP responses."""
 
-import json
 import pytest
 import respx
 from httpx import Response
 
-from gateway.backends.openai_compatible import OpenAICompatibleBackend
 from gateway.backends.ollama import OllamaBackend
-from gateway.backends.vllm import VLLMBackend
-from gateway.backends.sglang import SGLangBackend
+from gateway.backends.openai_compatible import OpenAICompatibleBackend
 from gateway.models.config_models import BackendConfig
-from gateway.models.request import ChatRequest, ChatMessage
+from gateway.models.request import ChatMessage, ChatRequest
 
 
 def _make_request() -> ChatRequest:

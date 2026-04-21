@@ -13,13 +13,16 @@ Production considerations:
 from __future__ import annotations
 
 import logging
+from typing import TYPE_CHECKING
 
 import structlog
 from starlette.middleware.base import BaseHTTPMiddleware, RequestResponseEndpoint
-from starlette.requests import Request
 from starlette.responses import JSONResponse, Response
 
-from gateway.models.config_models import TenantConfig
+if TYPE_CHECKING:
+    from starlette.requests import Request
+
+    from gateway.models.config_models import TenantConfig
 
 logger = logging.getLogger(__name__)
 

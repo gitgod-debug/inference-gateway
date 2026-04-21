@@ -12,23 +12,20 @@ Production considerations:
 from __future__ import annotations
 
 import logging
-import sys
 from contextlib import asynccontextmanager
-from typing import AsyncIterator
+from typing import TYPE_CHECKING
 
 from fastapi import FastAPI
 from prometheus_fastapi_instrumentator import Instrumentator
 
+# Import backend modules to trigger @BackendFactory.register decorators
+import gateway.backends.ollama
+import gateway.backends.openai_compatible
+import gateway.backends.sglang
+import gateway.backends.vllm  # noqa: F401
 from gateway import __version__
 from gateway.api.routes import router
 from gateway.backends.base import BackendFactory, BackendRegistry
-
-# Import backend modules to trigger @BackendFactory.register decorators
-import gateway.backends.ollama  # noqa: F401
-import gateway.backends.vllm  # noqa: F401
-import gateway.backends.sglang  # noqa: F401
-import gateway.backends.openai_compatible  # noqa: F401
-
 from gateway.config import GatewaySettings, get_settings, load_yaml_config
 from gateway.health.checker import HealthChecker
 from gateway.health.circuit_breaker import CircuitBreakerManager
@@ -37,13 +34,18 @@ from gateway.middleware.logging import LoggingMiddleware, configure_logging
 from gateway.middleware.rate_limit import RateLimitMiddleware
 from gateway.middleware.request_id import RequestIDMiddleware
 from gateway.models.config_models import (
-    ABTestsConfig, RoutesConfig, TenantsConfig,
+    ABTestsConfig,
+    RoutesConfig,
+    TenantsConfig,
 )
 from gateway.routing.ab_test import ABTestRouter
 from gateway.routing.canary import CanaryRouter
 from gateway.routing.fallback import FallbackChain
 from gateway.routing.load_balancer import WeightedLoadBalancer
 from gateway.routing.router import RequestRouter
+
+if TYPE_CHECKING:
+    from collections.abc import AsyncIterator
 
 logger = logging.getLogger(__name__)
 

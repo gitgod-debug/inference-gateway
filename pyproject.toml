@@ -10,7 +10,7 @@ readme = "README.md"
 license = {text = "MIT"}
 requires-python = ">=3.11"
 authors = [
-    {name = "Harshit", email = "harshit@example.com"},
+    {name = "Harshit", email = "harshitgoyal09112000@gmail.com"},
 ]
 keywords = ["inference", "gateway", "llm", "openai", "fastapi", "vllm", "ollama", "sglang"]
 classifiers = [

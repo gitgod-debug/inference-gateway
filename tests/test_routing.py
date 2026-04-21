@@ -1,10 +1,9 @@
 """Tests for A/B test and routing logic."""
 
-import pytest
 
 from gateway.backends.base import BackendRegistry
-from gateway.models.config_models import ABTestConfig, ABTestVariant, BackendConfig
 from gateway.backends.openai_compatible import OpenAICompatibleBackend
+from gateway.models.config_models import ABTestConfig, ABTestVariant, BackendConfig
 from gateway.routing.ab_test import ABTestRouter
 
 

@@ -1,10 +1,11 @@
 """Tests for YAML config loading and validation."""
 
-import pytest
 
-from gateway.config import load_yaml_config, _interpolate_env_vars
+from gateway.config import _interpolate_env_vars, load_yaml_config
 from gateway.models.config_models import (
-    ABTestsConfig, BackendConfig, RoutesConfig, TenantConfig, TenantsConfig,
+    BackendConfig,
+    RoutesConfig,
+    TenantConfig,
 )
 
 

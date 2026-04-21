@@ -3,17 +3,18 @@
 import pytest
 import yaml
 from httpx import ASGITransport, AsyncClient
+
+import gateway.backends.openai_compatible  # noqa
 from gateway.app import create_app
+from gateway.backends.base import BackendFactory, BackendRegistry
 from gateway.config import GatewaySettings
-from gateway.backends.base import BackendRegistry, BackendFactory
 from gateway.health.circuit_breaker import CircuitBreakerManager
+from gateway.models.config_models import RoutesConfig
 from gateway.routing.ab_test import ABTestRouter
 from gateway.routing.canary import CanaryRouter
 from gateway.routing.fallback import FallbackChain
 from gateway.routing.load_balancer import WeightedLoadBalancer
 from gateway.routing.router import RequestRouter
-from gateway.models.config_models import RoutesConfig
-import gateway.backends.openai_compatible  # noqa
 
 
 def _make_app(tmp_path, auth_enabled=True):

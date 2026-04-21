@@ -14,15 +14,18 @@ from __future__ import annotations
 
 import json
 import logging
-from typing import TYPE_CHECKING, AsyncIterator
+from typing import TYPE_CHECKING
 
 from sse_starlette.sse import EventSourceResponse
-from starlette.requests import Request
 
 from gateway.middleware.metrics import record_tokens
-from gateway.models.response import ChatChunk
 
 if TYPE_CHECKING:
+    from collections.abc import AsyncIterator
+
+    from starlette.requests import Request
+
+    from gateway.models.response import ChatChunk
     from gateway.routing.fallback import FallbackChain
 
 logger = logging.getLogger(__name__)
@@ -33,7 +36,7 @@ async def create_sse_response(
     chunk_iterator: AsyncIterator[ChatChunk],
     model: str,
     backend_name: str,
-    fallback_chain: "FallbackChain | None" = None,
+    fallback_chain: FallbackChain | None = None,
 ) -> EventSourceResponse:
     """Create an SSE response from a backend chunk iterator.
 

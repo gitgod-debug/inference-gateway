@@ -9,7 +9,7 @@ from __future__ import annotations
 import logging
 import os
 import re
-from enum import Enum
+from enum import StrEnum
 from functools import lru_cache
 from pathlib import Path
 from typing import Any
@@ -31,7 +31,7 @@ _PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
 _ENV_VAR_PATTERN = re.compile(r"\$\{(\w+)\}")
 
 
-class Environment(str, Enum):
+class Environment(StrEnum):
     """Application environment."""
 
     DEVELOPMENT = "development"

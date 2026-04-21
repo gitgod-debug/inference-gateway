@@ -1,9 +1,6 @@
 """Tests for circuit breaker state machine."""
 
 import time
-from unittest.mock import patch
-
-import pytest
 
 from gateway.health.circuit_breaker import CircuitBreaker, CircuitBreakerManager, State
 
